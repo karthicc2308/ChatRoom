@@ -1,17 +1,14 @@
 from cryptography.fernet import Fernet
 
 # Generate a key
-key = Fernet.generate_key()
-
+key = 'bD4Cilsh3I1I6YFc9-DfyhroWxaM01_8F6ced4IKW3o='
+print(key)
 # Create a Fernet object with the key
 cipher_suite = Fernet(key)
 
 # Get user input for the plaintext message
 def encrypt(txt):
-    plaintext_message = cipher_suite.encrypt(toBinary(txt))
-
-# Encrypt user input
-    ciphertext = cipher_suite.encrypt(plaintext_message)
+    ciphertext = cipher_suite.encrypt(txt)
     return ciphertext
 # Decrypt the ciphertext to verify
 def decrypt(txt):   

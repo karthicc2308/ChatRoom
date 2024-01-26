@@ -78,10 +78,10 @@ class chat:
         
     def rec(self):
         if self.isServer:
-            msg = decrypt(self.client.recv(1024).decode("utf-8"))
+            msg = decrypt(self.client.recv(1024))
             self._insert_msg(msg,"Sender")
         else:
-            msg = decrypt(self.host.recv(1024).decode("utf-8"))
+            msg = decrypt(self.host.recv(1024)).decode("utf-8")
             self._insert_msg(msg,"Sender")
     def set_msg(self):
          self.msg = self.msg_box.get()
