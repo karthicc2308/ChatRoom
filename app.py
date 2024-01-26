@@ -69,8 +69,11 @@ class chat:
         self.msg_box.place(relwidth = 0.74,relheight = 0.04,rely = 0.008,relx = 0.011)
         self.msg_box.focus()
         self.msg_box.bind("<Return>",self._on_enter_pressed)
-        send_but = Button(bottom_label,text = "Send",font=font_b,width = 20, bg = bubble_color, command = lambda:self._on_enter_pressed(None))
-        send_but.place(relx=0.77,rely=0.008,relheight=0.04,relwidth =0.22)
+        send_but = Button(bottom_label,text = "Send",font=font_b,width = 10, bg = bubble_color, command = lambda:self._on_enter_pressed(None))
+        send_but.place(relx=0.77,rely=0.008,relheight=0.04,relwidth =0.12)
+        file_but =Button(bottom_label,text = "Attach",font=font_b,width = 10, bg = bubble_color, command = lambda:self._on_enter_pressed_file(None))
+        send_but.place(relx=0.57,rely=0.008,relheight=0.04,relwidth =0.12)
+         
 
         
     def rec(self):

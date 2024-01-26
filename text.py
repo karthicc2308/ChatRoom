@@ -8,14 +8,14 @@ cipher_suite = Fernet(key)
 
 # Get user input for the plaintext message
 def encrypt(txt):
-    plaintext_message = text.encode()
+    plaintext_message = txt.encode()
 
 # Encrypt user input
     ciphertext = cipher_suite.encrypt(plaintext_message)
     return ciphertext
 # Decrypt the ciphertext to verify
 def decrypt(txt):   
-    decrypted_text = cipher_suite.decrypt(ciphertext)
+    decrypted_text = cipher_suite.decrypt(txt)
     return decrypted_text
 # print("Key:", key.decode())
 # print("Ciphertext:", ciphertext.decode())
