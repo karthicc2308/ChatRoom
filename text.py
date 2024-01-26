@@ -8,7 +8,7 @@ cipher_suite = Fernet(key)
 
 # Get user input for the plaintext message
 def encrypt(txt):
-    plaintext_message = txt.encode()
+    plaintext_message = cipher_suite.encrypt(toBinary(txt))
 
 # Encrypt user input
     ciphertext = cipher_suite.encrypt(plaintext_message)
