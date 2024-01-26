@@ -1,7 +1,7 @@
 from tkinter import *
 import socket
 import app
-
+import threading
 
 bg_color = "#FBF9F1"
 text_color = "#0F1035"
@@ -19,21 +19,23 @@ class chat:
         self.tit=title
         self.msg= ''
         self.isServer = isserver
-        # self.host = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        # if isserver:
-        #     self.host.bind(("localhost",9999))
-        #     self.host.listen()
-        #     print("Server is listening")
-        #     self.client ,self.addr = self.host.accept()
-        #     print("Connection established")
-        # else:
-        #     self.host.connect(("localhost",9999))
+        self.host = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        if isserver:
+            self.host.bind(("192.168.141.105",9999))
+            self.host.listen()
+            print("Server is listening")
+            self.client ,self.addr = self.host.accept()
+            print("Connection established")
+        else:
+            self.host.connect(("192.168.141.105",9999))
         self._setup_main_window()
         
     # def isServer(b):
     #     self.Server = b        
     
     def run(self):
+        t1 = threading.Thread(target=self.rec)
+        t1.start()
         self.window.mainloop()
             
         
@@ -69,16 +71,14 @@ class chat:
         send_but = Button(bottom_label,text = "Send",font=font_b,width = 20, bg = bubble_color, command = lambda:self._on_enter_pressed(None))
         send_but.place(relx=0.77,rely=0.008,relheight=0.04,relwidth =0.22)
 
-        # if self.isServer:
-        #     if n==1 :
-        #         msg = 'hi'
-        #     else:
-        #         msg = self.client.recv(1024).decode("utf-8")
-        #     self._insert_msg(msg,"Sender")
-        # else:
-        #     msg = self.host.recv(1024).decode("utf-8")
-        #     self._insert_msg(msg,"Sender")
-
+        
+    def rec(self):
+        if self.isServer:
+            msg = self.client.recv(1024).decode("utf-8")
+            self._insert_msg(msg,"Sender")
+        else:
+            msg = self.host.recv(1024).decode("utf-8")
+            self._insert_msg(msg,"Sender")
     def set_msg(self):
          self.msg = self.msg_box.get()
         
