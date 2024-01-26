@@ -1,4 +1,7 @@
 from tkinter import *
+import socket
+import app
+
 
 bg_color = "#FBF9F1"
 text_color = "#0F1035"
@@ -8,15 +11,38 @@ div_color = "#AAD7D9"
 font = "Helvetica 14"
 font_b = "Helvetica 13 bold"
 
-class App:
-    def __init__(self):
+class chat:
+    
+
+    def __init__(self,title,isserver):
         self.window = Tk()
+        self.tit=title
+        self.msg= ''
+        self.isServer = isserver
+        # self.host = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        # if isserver:
+        #     self.host.bind(("localhost",9999))
+        #     self.host.listen()
+        #     print("Server is listening")
+        #     self.client ,self.addr = self.host.accept()
+        #     print("Connection established")
+        # else:
+        #     self.host.connect(("localhost",9999))
         self._setup_main_window()
+        
+    # def isServer(b):
+    #     self.Server = b        
+    
     def run(self):
         self.window.mainloop()
+            
+        
+    
+    def get_msg(self):
+        return self.msg
         
     def _setup_main_window(self):
-        self.window.title("ChatRoom")
+        self.window.title("ChatRoom-"+self.tit)
         self.window.resizable(width=False,height=False)
         self.window.configure(width = 500, height = 500, bg = bg_color)
 
@@ -40,11 +66,30 @@ class App:
         self.msg_box.place(relwidth = 0.74,relheight = 0.04,rely = 0.008,relx = 0.011)
         self.msg_box.focus()
         self.msg_box.bind("<Return>",self._on_enter_pressed)
+        send_but = Button(bottom_label,text = "Send",font=font_b,width = 20, bg = bubble_color, command = lambda:self._on_enter_pressed(None))
+        send_but.place(relx=0.77,rely=0.008,relheight=0.04,relwidth =0.22)
+
+        # if self.isServer:
+        #     if n==1 :
+        #         msg = 'hi'
+        #     else:
+        #         msg = self.client.recv(1024).decode("utf-8")
+        #     self._insert_msg(msg,"Sender")
+        # else:
+        #     msg = self.host.recv(1024).decode("utf-8")
+        #     self._insert_msg(msg,"Sender")
+
+    def set_msg(self):
+         self.msg = self.msg_box.get()
         
     def _on_enter_pressed(self,event):
-        msg  = self.msg_box.get()
-        self._insert_msg(msg,"You")
-        
+        self.set_msg()
+        if self.isServer:
+            self.client.send(self.msg.encode("utf-8"))
+        else:
+            self.host.send(self.msg.encode("utf-8"))
+        self._insert_msg(self.msg,"You")
+    
     def _insert_msg(self,msg,sender):
         if not msg:
             return
@@ -53,7 +98,13 @@ class App:
         self.text_widget.configure(cursor="arrow",state = NORMAL)
         self.text_widget.insert(END,msg1)
         self.text_widget.configure(state=DISABLED)
+        
 
 if __name__ == '__main__':
-    app = App()
+    app = chat("test",True)
     app.run()
+    
+     
+     
+     
+        
