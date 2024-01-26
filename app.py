@@ -2,6 +2,7 @@ from tkinter import *
 import socket
 import app
 import threading
+from text import *
 
 bg_color = "#FBF9F1"
 text_color = "#0F1035"
@@ -74,10 +75,10 @@ class chat:
         
     def rec(self):
         if self.isServer:
-            msg = self.client.recv(1024).decode("utf-8")
+            msg = decrypt(self.client.recv(1024).decode("utf-8"))
             self._insert_msg(msg,"Sender")
         else:
-            msg = self.host.recv(1024).decode("utf-8")
+            msg = decrypt(self.host.recv(1024).decode("utf-8"))
             self._insert_msg(msg,"Sender")
     def set_msg(self):
          self.msg = self.msg_box.get()
@@ -85,9 +86,9 @@ class chat:
     def _on_enter_pressed(self,event):
         self.set_msg()
         if self.isServer:
-            self.client.send(self.msg.encode("utf-8"))
+            self.client.send(encrypt(self.msg.encode("utf-8")))
         else:
-            self.host.send(self.msg.encode("utf-8"))
+            self.host.send(encrypt(self.msg.encode("utf-8")))
         self._insert_msg(self.msg,"You")
     
     def _insert_msg(self,msg,sender):

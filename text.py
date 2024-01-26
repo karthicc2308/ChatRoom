@@ -7,14 +7,16 @@ key = Fernet.generate_key()
 cipher_suite = Fernet(key)
 
 # Get user input for the plaintext message
-plaintext_message = input("Enter the message to encrypt: ").encode()
+def encrypt(txt):
+    plaintext_message = text.encode()
 
 # Encrypt user input
-ciphertext = cipher_suite.encrypt(plaintext_message)
-
+    ciphertext = cipher_suite.encrypt(plaintext_message)
+    return ciphertext
 # Decrypt the ciphertext to verify
-decrypted_text = cipher_suite.decrypt(ciphertext)
-
-print("Key:", key.decode())
-print("Ciphertext:", ciphertext.decode())
-print("Decrypted message:", decrypted_text.decode())
+def decrypt(txt):   
+    decrypted_text = cipher_suite.decrypt(ciphertext)
+    return decrypted_text
+# print("Key:", key.decode())
+# print("Ciphertext:", ciphertext.decode())
+# print("Decrypted message:", decrypted_text.decode())
